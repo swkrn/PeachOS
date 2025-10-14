@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "idt/idt.h"
 
 uint16_t *video_mem = 0;
 
@@ -64,4 +65,7 @@ void kernel_main()
 {
     terminal_initialize();
     print("Suck you\nducker!");
+
+    // Initialize the interrupt descriptor table
+    idt_init();
 }
