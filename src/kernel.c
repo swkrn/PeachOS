@@ -38,10 +38,10 @@ void terminal_writechar(char c, char color)
 
 void terminal_initialize()
 {
-    video_mem = (uint16_t*)(0xB8000);
-    for (int y = 0; y < VGA_HEIGHT; y++) 
+    video_mem = (uint16_t *)(0xB8000);
+    for (int y = 0; y < VGA_HEIGHT; y++)
     {
-        for (int x = 0; x < VGA_WIDTH; x++) 
+        for (int x = 0; x < VGA_WIDTH; x++)
         {
             terminal_putchar(x, y, ' ', 0);
         }
@@ -51,14 +51,15 @@ void terminal_initialize()
 size_t strlen(const char *str)
 {
     size_t len = 0;
-    while (str[len++]);
+    while (str[len++])
+        ;
     return len;
 }
 
 void print(const char *str)
 {
     size_t len = strlen(str);
-    for  (int i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
     {
         terminal_writechar(str[i], 15);
     }
@@ -82,8 +83,19 @@ void kernel_main()
     // Switch to kernel paging chunk
     paging_switch(paging_4gb_chunk_get_directory(kernel_chunk));
 
+    char *ptr = kzalloc(4096);
+    paging_set(paging_4gb_chunk_get_directory(kernel_chunk), (void *)0x1000, (uint32_t)ptr | PAGING_ACCESS_FROM_ALL | PAGING_IS_PRESENT | PAGING_IS_WRITABLE);
+
     // Enable paging
     enable_paging();
+
+    // TODO: remove test
+    char *ptr2 = (char *)0x1000;
+    ptr2[0] = 'A';
+    ptr2[1] = 'B';
+    print(ptr2);
+
+    print(ptr);
 
     // Enable the system interrupts
     enable_interrupts();
