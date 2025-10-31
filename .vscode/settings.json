@@ -21,6 +21,10 @@
         "string_view": "c",
         "unordered_map": "c",
         "vector": "c",
-        "io.h": "c"
+        "io.h": "c",
+        "string.h": "c",
+        "paging.h": "c",
+        "disk.h": "c",
+        "stddef.h": "c"
     }
 }

@@ -4,6 +4,8 @@
 #include "memory/heap/kheap.h"
 #include "memory/paging/paging.h"
 #include "disk/disk.h"
+#include "string/string.h"
+#include "fs/pparser.h"
 
 uint16_t *video_mem = 0;
 
@@ -49,14 +51,6 @@ void terminal_initialize()
     }
 }
 
-size_t strlen(const char *str)
-{
-    size_t len = 0;
-    while (str[len++])
-        ;
-    return len;
-}
-
 void print(const char *str)
 {
     size_t len = strlen(str);
@@ -93,10 +87,13 @@ void kernel_main()
     // Enable paging
     enable_paging();
 
-    // TODO: remove test
-    char buf[512];
-    disk_read_block(disk_get(0), 0, 512, &buf);
-
     // Enable the system interrupts
     enable_interrupts();
+
+    // TODO: remove test
+    struct path_root *root_path = pathparser_parse("0:/bin/shell.exe", NULL);
+    if (root_path)
+    {
+
+    }
 }
