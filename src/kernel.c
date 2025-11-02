@@ -6,6 +6,7 @@
 #include "disk/disk.h"
 #include "string/string.h"
 #include "fs/pparser.h"
+#include "disk/streamer.h"
 
 uint16_t *video_mem = 0;
 
@@ -90,10 +91,10 @@ void kernel_main()
     // Enable the system interrupts
     enable_interrupts();
 
-    // TODO: remove test
-    struct path_root *root_path = pathparser_parse("0:/bin/shell.exe", NULL);
-    if (root_path)
-    {
-
-    }
+    // TODO: remote test
+    struct disk_stream *stream = diskstreamer_new(0);
+    diskstreamer_seek(stream, 0x201);
+    char c = 0;
+    diskstreamer_read(stream, &c, 1);
+    while (1);
 }
