@@ -25,6 +25,8 @@
         "string.h": "c",
         "paging.h": "c",
         "disk.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "stdbool.h": "c",
+        "kheap.h": "c"
     }
 }
