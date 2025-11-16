@@ -8,6 +8,12 @@ all: ./bin/boot.bin ./bin/kernel.bin
 	dd if=./bin/kernel.bin >> ./bin/os.bin
 	dd if=/dev/zero bs=1048576 count=16 >> ./bin/os.bin
 
+	DEV=$$(hdiutil attach -imagekey diskimage-class=CRawDiskImage ./bin/os.bin \
+		| grep '^/dev/disk' | cut -d' ' -f1); \
+	echo "Mounted as $$DEV"; \
+	cp ./hello.txt /Volumes/PEACHOS\ BOO/hello.txt; \
+	hdiutil detach $$DEV
+
 ./bin/kernel.bin: $(FILES)
 	i686-elf-ld -g -relocatable $(FILES) -o ./build/kernelfull.o
 	i686-elf-gcc $(FLAGS) -T ./src/linker.ld -o ./bin/kernel.bin -ffreestanding -O0 -nostdlib ./build/kernelfull.o

@@ -21,3 +21,14 @@ int memcmp(void *s1, void *s2, size_t size)
     }
     return 0;
 }
+
+void *memcpy(void *dest, void *src, size_t size)
+{
+    char *d = dest;
+    char *s = src;
+    while (size--)
+    {
+        *d++ = *s++;
+    }
+    return dest;
+}

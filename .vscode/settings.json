@@ -27,6 +27,8 @@
         "disk.h": "c",
         "stddef.h": "c",
         "stdbool.h": "c",
-        "kheap.h": "c"
+        "kheap.h": "c",
+        "status.h": "c",
+        "cstring": "c"
     }
 }
