@@ -85,6 +85,20 @@ char* strcpy(char *dest, const char *source)
     return res;
 }
 
+char *strncpy(char *dest, const char *src, int count)
+{
+    int i = 0;
+    for (; i < count - 1; i++)
+    {
+        if (src[i] == '\0')
+            break;
+
+        dest[i] = src[i];
+    }
+    dest[i] = '\0';
+    return dest;
+}
+
 bool isdigit(char c)
 {
     return c >= 48 && c <= 57;

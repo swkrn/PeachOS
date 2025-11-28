@@ -29,6 +29,7 @@
         "stdbool.h": "c",
         "kheap.h": "c",
         "status.h": "c",
-        "cstring": "c"
+        "cstring": "c",
+        "variant": "c"
     },
 }
