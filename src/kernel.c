@@ -6,12 +6,15 @@
 #include "memory/memory.h"
 #include "disk/disk.h"
 #include "string/string.h"
+#include "task/task.h"
+#include "task/process.h"
 #include "fs/file.h"
 #include "fs/pparser.h"
 #include "disk/streamer.h"
 #include "task/tss.h"
 #include "gdt/gdt.h"
 #include "config.h"
+#include "status.h"
 
 uint16_t *video_mem = 0;
 
@@ -89,7 +92,7 @@ struct gdt_structured gdt_structured[PEACHOS_TOTAL_GDT_SEGMENTS] = {
 void kernel_main()
 {
     terminal_initialize();
-    print("Suck you\nducker!");
+    print("Suck you\nducker!\n");
 
     memset(gdt_real, 0x00, sizeof(gdt_real));
     gdt_structured_to_gdt(gdt_real, gdt_structured, PEACHOS_TOTAL_GDT_SEGMENTS);
@@ -129,18 +132,19 @@ void kernel_main()
     // Enable paging
     enable_paging();
 
-    // Enable the system interrupts
-    enable_interrupts();
+    struct process *process = 0;
 
-    int fd = fopen("0:/hello.txt", "r");
-    if (fd)
+    int res = process_load("0:/blank.bin", &process);
+    if (res != PEACHOS_ALL_OK)
     {
-        struct file_stat s;
-        fstat(fd, &s);
-        fclose(fd);
-
-        print("testing\n");
+        panic("Failed to load blank.bin\n");
     }
+    else
+    {
+        print("Success to load blank.bin\n");
+    }
+
+    task_run_first_ever_task();
 
     while (1);
 }
